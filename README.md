@@ -1,4 +1,4 @@
-# 6comic-downloader
+# 6comic-Downloader
 
 ##Usage
 `php downloader.php ID [CH]`

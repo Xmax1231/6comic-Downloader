@@ -24,10 +24,10 @@ echo "download id=".$id." ch=".$ch1."-".$ch2."\n";
 preg_match("/var cs='(.+?)';/", $t, $m);
 $code=$m[1];
 $hash=substr($code, 0, 3);
-system("mkdir output");
-system("mkdir output\\".$id);
+@mkdir("downloads");
+@mkdir("downloads\\".$id);
 for ($i=$ch1; $i <= $ch2; $i++) {
-	system("mkdir output\\".$id."\\".$i);
+	@mkdir("downloads\\".$id."\\".$i);
 	$prestr=$hash.$i;
 	$prestr=substr($prestr, strlen($prestr)-4, 4);
 	$startid=strpos($code, $prestr);
@@ -40,7 +40,7 @@ for ($i=$ch1; $i <= $ch2; $i++) {
 		$imghash=substr($code, $startid2, 3);
 		$url="http://img".$domain.".6comic.com:99/".$folder."/".$id."/".$i."/".str_pad($j, 3, "0", STR_PAD_LEFT)."_".$imghash.".jpg";
 		$img=file_get_contents($url);
-		file_put_contents("output\\".$id."\\".$i."\\".$j.".jpg", $img);
+		file_put_contents("downloads\\".$id."\\".$i."\\".$j.".jpg", $img);
 	}
 }
 ?>
