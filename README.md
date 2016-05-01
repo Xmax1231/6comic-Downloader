@@ -1,7 +1,8 @@
 # 6comic-Downloader
 
 ##Usage
-`php downloader.php ID [CH]`
+`php downloader.php ID [CH]`  
+`python3 downloader.py ID [CH]`
 
 ##Parameters
 
