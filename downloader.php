@@ -27,13 +27,18 @@ $hash=substr($code, 0, 3);
 @mkdir("downloads");
 @mkdir("downloads/".$id);
 for ($i=$ch1; $i <= $ch2; $i++) {
-	@mkdir("downloads/".$id."/".$i);
 	$prestr=$hash.$i;
 	$prestr=substr($prestr, strlen($prestr)-4, 4);
 	$startid=strpos($code, $prestr);
+	if ($startid === false) {
+		echo "ch ".$i." not found.\n";
+		continue;
+	}
+	@mkdir("downloads/".$id."/".$i);
 	$domain=substr($code, $startid+5, 1);
 	$folder=substr($code, $startid+6, 1);
-	$page=substr($code, $startid+8, 2);
+	preg_match("/(\d+)$/", substr($code, $startid+7, 3), $m);
+	$page=$m[1];
 	for ($j=1; $j <= $page; $j++) {
 		echo "downloading ch=".$i." page=".$j."\n";
 		$startid2=$startid+10+($j-1)%10*3+floor(($j-1)/10);
