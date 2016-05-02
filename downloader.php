@@ -41,7 +41,8 @@ for ($i=$ch1; $i <= $ch2; $i++) {
 	$page=$m[1];
 	for ($j=1; $j <= $page; $j++) {
 		echo "downloading ch=".$i." page=".$j."\n";
-		$startid2=$startid+10+($j-1)%10*3+floor(($j-1)/10);
+		$k=($j-1)%100+1;
+		$startid2=$startid+10+($k-1)%10*3+floor(($k-1)/10);
 		$imghash=substr($code, $startid2, 3);
 		$url="http://img".$domain.".6comic.com:99/".$folder."/".$id."/".$i."/".str_pad($j, 3, "0", STR_PAD_LEFT)."_".$imghash.".jpg";
 		$img=file_get_contents($url);

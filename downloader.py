@@ -46,7 +46,8 @@ for i in range(int(ch1),int(ch2)+1):
 	page=m.group(1)
 	for j in range(1,int(page)+1):
 		print("downloading ch="+str(i)+" page="+str(j))
-		startid2=startid+10+(j-1)%10*3+math.floor((j-1)/10)
+		k=(j-1)%100+1;
+		startid2=startid+10+(k-1)%10*3+math.floor((k-1)/10)
 		imghash=code[startid2:startid2+3]
 		url="http://img"+domain+".6comic.com:99/"+folder+"/"+cid+"/"+str(i)+"/"+(str(j).zfill(3))+"_"+imghash+".jpg"
 		img=urllib.request.urlopen(url).read()
