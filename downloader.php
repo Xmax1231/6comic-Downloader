@@ -1,9 +1,11 @@
 <?php
 $id=$_SERVER["argv"][1];
 if (!isset($id)) {
-	exit("no id");
+	exit("No ID");
 } else if (!is_numeric($id)) {
-	exit("id not a number");
+	exit("ID not a number");
+} else {
+	echo "Download ID ".$id."\n";
 }
 $t=file_get_contents("http://www.6comic.com/comic/readmanga_".$id.".html?ch=1-1");
 $t=iconv("BIG5", "UTF-8", $t);
@@ -17,10 +19,27 @@ if (isset($_SERVER["argv"][2])) {
 	} else if (is_numeric($_SERVER["argv"][2])) {
 		$ch1=$ch2=$_SERVER["argv"][2];
 	} else if (!is_numeric($id)) {
-		exit("ch not a number");
+		exit("Chapter not a number");
 	}
+	echo "Download Chapter ".$ch1."-".$ch2."\n";
+} else {
+	echo "Download All Chapters\n";
 }
-echo "download id=".$id." ch=".$ch1."-".$ch2."\n";
+$pg1=1;
+$pg2=PHP_INT_MAX;
+if (isset($_SERVER["argv"][3])) {
+	if (preg_match("/^(\d+)-(\d+)$/", $_SERVER["argv"][3], $m)) {
+		$pg1=$m[1];
+		$pg2=$m[2];
+	} else if (is_numeric($_SERVER["argv"][3])) {
+		$pg1=$pg2=$_SERVER["argv"][3];
+	} else if (!is_numeric($id)) {
+		exit("Page not a number");
+	}
+	echo "Download Page ".$pg1."-".$pg2."\n";
+} else {
+	echo "Download All Pages\n";
+}
 preg_match("/var cs='(.+?)';/", $t, $m);
 $code=$m[1];
 $hash=substr($code, 0, 3);
@@ -31,7 +50,7 @@ for ($i=$ch1; $i <= $ch2; $i++) {
 	$prestr=substr($prestr, strlen($prestr)-4, 4);
 	$startid=strpos($code, $prestr);
 	if ($startid === false) {
-		echo "ch ".$i." not found.\n";
+		echo "Chapter ".$i." not found.\n";
 		continue;
 	}
 	@mkdir("downloads/".$id."/".$i);
@@ -39,8 +58,9 @@ for ($i=$ch1; $i <= $ch2; $i++) {
 	$folder=substr($code, $startid+6, 1);
 	preg_match("/(\d+)$/", substr($code, $startid+7, 3), $m);
 	$page=$m[1];
-	for ($j=1; $j <= $page; $j++) {
-		echo "downloading ch=".$i." page=".$j."\n";
+	echo "Download Chapter ".$i." Page ".max($pg1,1)."-".min($pg2,$page)."\n";
+	for ($j=max($pg1,1); $j <= min($pg2,$page); $j++) {
+		echo "Downloading Chapter ".$i." Page ".$j."\n";
 		$k=($j-1)%100+1;
 		$startid2=$startid+10+($k-1)%10*3+floor(($k-1)/10);
 		$imghash=substr($code, $startid2, 3);
