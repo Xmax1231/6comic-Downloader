@@ -1,10 +1,10 @@
 # 6comic-Downloader
 
-##Usage
+## Usage
 `php downloader.php ID [CH] [PG]`  
 `python3 downloader.py ID [CH]`
 
-##Parameters
+## Parameters
 
 **ID**  
 format:`\d+`  
