@@ -15,7 +15,7 @@ cname = re.search('<title>(.+?)</title>', t)
 if cname is None:
 	sys.exit('comic name is not found')
 else:
-	cname = cname.group(1).split(' ')[0]
+	cname = str.rstrip(cname.group(1).split('-')[0])[:-2]
 m=re.search("var chs=(\d+)",t)
 ch1=1
 ch2=m.group(1)
