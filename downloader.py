@@ -16,7 +16,7 @@ if cname is None:
 	sys.exit('comic name is not found')
 else:
 	cname = str.rstrip(cname.group(1).split('-')[0])[:-2]
-	cname = re.sub('\\|\/|\:|\*|\?|\"|<|>|\|', ' ', cname)	# Fix filename incorrect
+	cname = str.rstrip(re.sub('\\|\/|\:|\*|\?|\"|<|>|\|', ' ', cname))	# Fix filename incorrect
 m=re.search("var chs=(\d+)",t)
 ch1=1
 ch2=m.group(1)
